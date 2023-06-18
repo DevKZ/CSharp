@@ -1,0 +1,12 @@
+﻿<Window x:Class="Wpf4App.PlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf4App"
+        mc:Ignorable="d" Height="450" Width="800" Loaded="Window_Loaded" Topmost="True" ResizeMode="NoResize" WindowStyle="None">
+    <Grid>
+        <MediaElement x:Name="mediaElement" HorizontalAlignment="Left" Height="402" Margin="21,10,0,0" VerticalAlignment="Top" Width="762" LoadedBehavior="Manual" />
+        <Button Content="終了" HorizontalAlignment="Left" Height="20" Margin="50,156,0,0" VerticalAlignment="Top" Width="50" Click="btnClose_Click"/>
+    </Grid>
+</Window>

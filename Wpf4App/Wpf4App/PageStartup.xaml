@@ -1,0 +1,16 @@
+﻿<Page x:Class="Wpf4App.PageStartup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Wpf4App"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PageStartup">
+
+    <Grid>
+        <Button Content="history" HorizontalAlignment="Left" Height="48" Margin="306,258,0,0" VerticalAlignment="Top" Width="80" Click="btnHistory_Click"/>
+        <Button Content="start" HorizontalAlignment="Left" Height="48" Margin="506,258,0,0" VerticalAlignment="Top" Width="80" Click="btnStartup_Click"/>
+
+    </Grid>
+</Page>
