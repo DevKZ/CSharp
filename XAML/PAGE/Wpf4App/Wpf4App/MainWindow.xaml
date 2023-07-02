@@ -1,0 +1,15 @@
+﻿<Window x:Class="Wpf4App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf4App"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Frame x:Name="frame"/>
+            
+        <CheckBox Content="Navigation Visible" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="CheckBoxVisible_Checked" Unchecked="CheckBox_Unchecked" Margin="0,200,0,0"/>
+        <CheckBox Content="Navigation Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="CheckBoxAuto_Checked" Unchecked="CheckBox_Unchecked" Margin="0,250,0,0" IsChecked="True"/>
+    </Grid>
+</Window>

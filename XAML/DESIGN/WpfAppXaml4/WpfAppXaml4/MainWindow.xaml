@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfAppXaml4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppXaml4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Viewbox>
+        <iconPacks:PackIconMaterialDesign
+                Width="60"
+                Height="60"
+                Margin="5"
+                Kind="AccessAlarm" Foreground="#FF82AD51" >
+        </iconPacks:PackIconMaterialDesign>
+    </Viewbox>
+</Window>
