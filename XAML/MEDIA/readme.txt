@@ -27,7 +27,7 @@ System.Drawing参照なし版
 
 SharpDX.MediaFoundationライブラリ参照
 
-■動画の透過テスト
+■動画の特殊効果、透過テスト
 WpfAppXaml3
 
 Background="{x:Null}"

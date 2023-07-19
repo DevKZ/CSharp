@@ -1,0 +1,56 @@
+﻿<Page x:Class="WpfAppXaml3.Page1"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfAppXaml3"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Page1">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <MediaElement x:Name="mediaElement" Height="270" Margin="0,20,0,0" VerticalAlignment="Top" LoadedBehavior="Manual" MediaOpened="mediaElement_MediaOpened" MediaEnded="mediaElement_MediaEnded" Width="400"/>
+        <Button x:Name="BtnClickMe" Content="Click Me!!" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Width="200" Height="100" Click="Button_ClickMe" BorderBrush="{x:Null}" Visibility="Collapsed"/>
+        <Slider Name="slider" VerticalAlignment="Top" Minimum="0" Maximum="100" Margin="20,0,20,0" Height="23" Width="480" Grid.Row="1"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="OpenFile"  Click="ButtonClickDlgOpen" Width="100"/>
+            <Button Content="再生" Click="ButtonClickPlay" Width="100"/>
+            <Button Content="一時停止" Click="ButtonClickPause" Width="100"/>
+            <Button Content="停止" Click="ButtonClickStop" Width="100"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Content="通常"  Click="Origin_Click" Width="100"/>
+            <Button Content="四角形" Click="RectButton_Click" Width="100"/>
+            <Button Content="円形" Click="EllipseButton_Click" Width="100"/>
+            <Button Content="ぼかし" Click="Blur_Click" Width="100"/>
+            <Button Content="影" Click="Shadow_Click" Width="100"/>
+            <Button Content="Glow" Click="Glow_Click" Width="100"/>
+            <Button Content="Emboss" Click="Emboss_Click" Width="100"/>
+            <Button Content="透過on動画" Click="TransParent_Click" Width="100"/>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <StackPanel Background="White">
+                <Label Content="透明度" Width="100" Foreground="Black" ></Label>
+                <Slider x:Name="TransParencySlider" VerticalAlignment="Top" Width="100" ValueChanged="TransParencySlider_ValueChanged"  />
+            </StackPanel>
+            <StackPanel Background="White">
+                <Label Content="傾き" Width="100" Foreground="Black" ></Label>
+                <Slider x:Name="TiltSlider" VerticalAlignment="Top" Width="100" ValueChanged="TiltSlider_ValueChanged"  />
+            </StackPanel>
+            <StackPanel Background="White">
+                <Label Content="拡大" Width="100" Foreground="Black"></Label>
+                <Slider x:Name="ScaleSlider" VerticalAlignment="Top" Width="100" ValueChanged="ScaleSlider_ValueChanged"  />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Page>

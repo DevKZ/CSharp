@@ -7,8 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <MediaElement x:Name="mediaElement" HorizontalAlignment="Center" VerticalAlignment="Center" MediaOpened="mediaElement_MediaOpened" UnloadedBehavior="Manual"/>
-        <Button x:Name="BTNTEST" Content="Click Me!!" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Width="200" Height="100" Click="Button_Click" BorderBrush="{x:Null}"/>
-        <Button Content="OpenFile" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Frame x:Name="frame"/>
     </Grid>
 </Window>
