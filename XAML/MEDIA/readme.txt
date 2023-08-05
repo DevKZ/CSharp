@@ -36,3 +36,6 @@ Background="{x:Null}"
 WpfApp4
 
 
+■動画視点移動
+WpfApp5
+
