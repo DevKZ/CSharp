@@ -8,38 +8,45 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page1" KeyDown="Page_KeyDown" Focusable="True" Loaded="Page_Loaded" AllowDrop="True" DragOver="Page_DragOver" Drop="Page_Drop">
 
-    <Grid>
-        <TextBlock Text="Drop Mp4 File Me! Then play start" ></TextBlock>
-        <Viewbox>
-            <Grid >
-                <MediaElement x:Name="mediaElement" LoadedBehavior="Manual" MediaOpened="mediaElement_MediaOpened" MediaEnded="mediaElement_MediaEnded" RenderTransformOrigin="0.5,0.5"/>
-            </Grid>
-        </Viewbox>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
 
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="18*"/>
+        </Grid.RowDefinitions>
+        <Viewbox Grid.RowSpan="2" VerticalAlignment="Top">
+            <MediaElement x:Name="mediaElement" LoadedBehavior="Manual" MediaOpened="mediaElement_MediaOpened" MediaEnded="mediaElement_MediaEnded" RenderTransformOrigin="0.5,0.5"/>
+        </Viewbox>
+        <Border VerticalAlignment="Top" Background="Black" MinHeight="300"/>
+        <TextBlock Text="Drop Files me!" Foreground="White"></TextBlock>
+
+
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="1*"/>
+
             </Grid.ColumnDefinitions>
 
-            <Viewbox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top">
-                <StackPanel x:Name="SubViewPanel" VerticalAlignment="Top">
-                    <Grid>
-                        <Rectangle Width="320" Height="180">
-                            <Rectangle.Fill>
-                                <VisualBrush TileMode="None" Visual="{Binding ElementName=mediaElement}"/>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                        <Border x:Name="SubFocus" BorderBrush="#FFFFF500" BorderThickness="3,3,3,3" RenderTransformOrigin="0.5,0.5"/>
-                    </Grid>
-                </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Grid>
+                    <Rectangle Width="320" Height="180">
+                        <Rectangle.Fill>
+                            <VisualBrush TileMode="None" Visual="{Binding ElementName=mediaElement}" Stretch="Fill"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Border x:Name="SubFocus" BorderBrush="White" BorderThickness="3,3,3,3" RenderTransformOrigin="0.5,0.5"/>
+
+                </Grid>
             </Viewbox>
         </Grid>
+
     </Grid>
+
 </Page>

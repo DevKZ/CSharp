@@ -23,11 +23,12 @@ namespace WpfApp5
     /// </summary>
     public partial class Page1 : Page
     {
-        private Matrix default_matrix;
         private MediaState m_stateCurrent;
 
-        double SC = Constants.InitialScale;
-        int TC = 0;
+        int ScaleFactor = Constants.InitialScale;
+        int OffsetX = 0;
+        int OffsetY = 0;
+
 
         public Page1()
         {
@@ -44,23 +45,17 @@ namespace WpfApp5
 
         private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
-            mediaElement.RenderTransform = new ScaleTransform(SC, SC);
-            default_matrix = mediaElement.RenderTransform.Value;
-            SubFocusRedraw(mediaElement.RenderTransform.Value);
+            InitMediaTransform();
 
             Play();
         }
 
         private void SubFocusRedraw(Matrix matrix)
         {
-            var tfg = new TransformGroup();
-
-            double scale = (Constants.SizeScale / matrix.M11);
-            tfg.Children.Add(new ScaleTransform(scale - Constants.ScaleStep, scale - Constants.ScaleStep));
-            // ずれるため調整
-            tfg.Children.Add(new TranslateTransform(-(double)((matrix.OffsetX * scale * 1.2) / (Constants.DivWLevel)), -(double)((matrix.OffsetY * scale * 1.1) / Constants.DivHLevel)));
-
-            SubFocus.RenderTransform = tfg;
+            matrix.Invert();
+            matrix.OffsetX = (double)(matrix.OffsetX / (mediaElement.NaturalVideoWidth / Constants.SubViewWidth));
+            matrix.OffsetY = (double)(matrix.OffsetY / (mediaElement.NaturalVideoHeight / Constants.SubViewHeight));
+            SubFocus.RenderTransform = new MatrixTransform(matrix);
         }
 
         private int DivW()
@@ -72,156 +67,181 @@ namespace WpfApp5
             return (int)(mediaElement.NaturalVideoHeight / Constants.DivHLevel);
         }
 
+        private void MediaTransform()
+        {
+            TransformGroup tfg;
+
+            tfg = new TransformGroup();
+
+            tfg.Children.Add(new ScaleTransform((double)ScaleFactor / 10, (double)ScaleFactor / 10));
+            tfg.Children.Add(new TranslateTransform(OffsetX, OffsetY));
+
+            mediaElement.RenderTransform = tfg;
+
+            SubFocusRedraw(mediaElement.RenderTransform.Value);
+        }
+
+        private void InitMediaTransform()
+        {
+            ScaleFactor = Constants.InitialScale;
+            OffsetX = 0;
+            OffsetY = 0;
+
+            MediaTransform();
+        }
+
+        private bool IsRangeWidth()
+        {
+            bool ret = true;
+            int t1;
+
+            t1 = System.Math.Abs(OffsetX);
+            if (((t1 == DivW() * 3) && (ScaleFactor <= 18)) || ((t1 == DivW() * 2) && (ScaleFactor <= 15)) || ((t1 == DivW()) && (ScaleFactor <= 13)))
+            {
+                ret = false;
+            }
+            return ret;
+
+        }
+
+        private bool IsRangeHeight()
+        {
+            bool ret = true;
+            int t1;
+
+            t1 = System.Math.Abs(OffsetY);
+            if ((t1 == DivH() * 3) || ((t1 == DivH()*2) && (ScaleFactor <= 17)) || ((t1 == DivH()) && (ScaleFactor <= 14)))
+            {
+                ret = false;
+            }
+            return ret;
+
+        }
+        private bool IsRangeMove(Key k)
+        {
+            bool ret = true;
+            int t1,t2,t3,t4;
+
+            if (k == Key.Up)
+            {
+                t1 = (int)(OffsetY / DivH());
+                if ((t1 == 3) || ((ScaleFactor <= 19) && (t1 == 2)) || ((ScaleFactor <= 16) && (t1 == 1)) || (ScaleFactor <= 13) && (t1 == 0))
+                {
+                    ret = false;
+                }
+
+            }
+            else if (k == Key.Down)
+            {
+                t1 = (int)(OffsetY / DivH());
+                if ((t1 == -3) || ((ScaleFactor <= 19) && (t1 == -2)) || ((ScaleFactor <= 16) && (t1 == -1)) || (ScaleFactor <= 13) && (t1 == 0))
+                {
+                    ret = false;
+                }
+
+            }
+            else if (k == Key.Left)
+            {
+                t1 = (-(((OffsetX / DivW())) - 3)) + (20 - ScaleFactor) * (Constants.DivWLevel - 1);
+                t2 = (t1 - 22);
+                t3 = (t1 - 44);
+                t4 = (t1 - 59);
+
+                if (((t1 % (Constants.DivWLevel - 1)) == 0)
+                    || ((t2 >= 0) && ((t2 % (Constants.DivWLevel - 1)) == 0))
+                    || ((t3 >= 0) && ((t3 % (Constants.DivWLevel - 1)) == 0))
+                    || ((t4 >= 0) && ((t4 % (Constants.DivWLevel - 1)) == 0)))
+                {
+                    ret = false;
+                }
+            }
+            else if (k == Key.Right)
+            {
+                t1 = (((OffsetX / DivW()) + 4) - 1) + (20 - ScaleFactor) * (Constants.DivWLevel - 1);
+                t2 = (t1 - 22);
+                t3 = (t1 - 44);
+                t4 = (t1 - 59);
+
+                if (((t1 % (Constants.DivWLevel - 1)) == 0)
+                    || ((t2 >= 0) && ((t2 % (Constants.DivWLevel - 1)) == 0))
+                    || ((t3 >= 0) && ((t3 % (Constants.DivWLevel - 1)) == 0))
+                    || ((t4 >= 0) && ((t4 % (Constants.DivWLevel - 1)) == 0)))
+                {
+                    ret = false;
+                }
+            }
+
+            return ret;
+
+        }
+
         private void Page_KeyDown(object sender, KeyEventArgs e)
         {
-            Matrix matrix;
-            TransformGroup tfg;
-            int t1, t2, t3, t4;
-            int s1;
-
             switch (e.Key)
             {
+                case Key.Z:
+                    break;
+
                 case Key.O:
-                    s1 = (int)(SC * 10);    //整数化
-                    if (s1 <Constants.ScaleMax)
+                    if (ScaleFactor < Constants.ScaleMax)
                     {
-                        SC += Constants.ScaleStep;
+                        ScaleFactor += Constants.ScaleStep;
+                        MediaTransform();
 
-                        tfg = new TransformGroup();
-
-                        tfg.Children.Add(new ScaleTransform(SC, SC));
-                        tfg.Children.Add(new TranslateTransform(TC, 0));
-
-                        mediaElement.RenderTransform = tfg;
-
-                        SubFocusRedraw(mediaElement.RenderTransform.Value);
                     }
 
                     break;
                 case Key.P:
-                    s1 = (int)(SC * 10);    //整数化
-                    if (s1 >= Constants.ScaleMin)
+                    // Scaleチェック
+                    if (ScaleFactor > Constants.ScaleMin)
                     {
-                        t1 = System.Math.Abs(TC);
-                        if (((t1 == DivW() * 3) && (s1 <= 18)) || ((t1 == DivW()*2) && (s1 <= 15)) || ((t1 == DivW()) && (s1 <= 13)))
+                        // Offsetチェック
+                        if (IsRangeWidth() && IsRangeHeight())
                         {
-                            // nop
-                        }
-                        else
-                        {
-                            SC += -Constants.ScaleStep;
+                            ScaleFactor += -Constants.ScaleStep;
 
-                            tfg = new TransformGroup();
-
-                            tfg.Children.Add(new ScaleTransform(SC, SC));
-                            tfg.Children.Add(new TranslateTransform(TC, 0));
-
-                            mediaElement.RenderTransform = tfg;
-
-                            SubFocusRedraw(mediaElement.RenderTransform.Value);
+                            MediaTransform();
                         }
                     }
                     break;
 
                 case Key.Left:
-                    s1 = (int)(SC * 10);    //整数化
-
-                    t1 = (-(((TC / DivW())) -3)) +(20 - s1) * (Constants.DivWLevel-1);
-                    t2 = (t1 - 22);
-                    t3 = (t1 - 44);
-                    t4 = (t1 - 59);
-
-                    if (((t1 % (Constants.DivWLevel - 1)) == 0)
-                        || ((t2 >= 0) && ((t2 % (Constants.DivWLevel - 1)) == 0))
-                        || ((t3 >= 0) && ((t3 % (Constants.DivWLevel - 1)) == 0))
-                        || ((t4 >= 0) && ((t4 % (Constants.DivWLevel - 1)) == 0)))
+                    if (IsRangeMove(e.Key))
                     {
-                        //nop
+                        OffsetX += DivW();
+
+                        MediaTransform();
                     }
-                    else
-                    {
-                        TC += DivW();
-                        tfg = new TransformGroup();
-
-                        tfg.Children.Add(new ScaleTransform(SC, SC));
-                        tfg.Children.Add(new TranslateTransform(TC, 0));
-
-                        mediaElement.RenderTransform = tfg;
-
-                        SubFocusRedraw(mediaElement.RenderTransform.Value);
-                    }
-
                     break;
                 case Key.Right:
-                    s1 = (int)(SC * 10);    //整数化
-
-                    t1 = (((TC / DivW()) +4)-1) + (20 - s1) * (Constants.DivWLevel - 1);
-                    t2 = (t1 - 22);
-                    t3 = (t1 - 44);
-                    t4 = (t1 - 59);
-
-                    if (((t1 % (Constants.DivWLevel - 1)) == 0)
-                        || ((t2 >= 0) && ((t2 % (Constants.DivWLevel - 1)) == 0))
-                        || ((t3 >= 0) && ((t3 % (Constants.DivWLevel - 1)) == 0))
-                        || ((t4 >= 0) && ((t4 % (Constants.DivWLevel - 1)) == 0)))
+                    if (IsRangeMove(e.Key))
                     {
-                        //nop
+                        OffsetX -= DivW();
+
+                        MediaTransform();
                     }
-                    else
-                    {
-                        TC -= DivW();
-                        tfg = new TransformGroup();
 
-                        tfg.Children.Add(new ScaleTransform(SC, SC));
-                        tfg.Children.Add(new TranslateTransform(TC, 0));
-
-                        mediaElement.RenderTransform = tfg;
-
-                        SubFocusRedraw(mediaElement.RenderTransform.Value);
-                    }
                     break;
                 case Key.Down:
-                    s1 = (int)(SC * 10);    //整数化
-                    matrix = mediaElement.RenderTransform.Value;
-                    t1 = (int)matrix.OffsetY / DivH();
-                    if ((t1 == -3) || ((s1 <= 19) && (t1 == -2)) || ((s1 <= 14) && (t1 == -1)) || ((s1 <= 13) && (t1 == 0)))
+                    if (IsRangeMove(e.Key))
                     {
-                        // nop
-                    }
-                    else
-                    {
-                        matrix.Translate(0, -DivH());
+                        OffsetY -= DivH();
+                        MediaTransform();
 
-                        mediaElement.RenderTransform = new MatrixTransform(matrix);
-
-                        SubFocusRedraw(matrix);
                     }
                     break;
                 case Key.Up:
-                    s1 = (int)(SC * 10);    //整数化
-                    matrix = mediaElement.RenderTransform.Value;
-                    t1 =(int)matrix.OffsetY / DivH();
-                    if ((t1 == 3) || ((s1 <= 19) && (t1 == 2)) || ((s1 <= 14) && (t1 == 1)) || ((s1 <=13) && (t1 == 0)))
+                    if (IsRangeMove(e.Key))
                     {
-                        // nop
-                    }
-                    else
-                    {
-                        matrix.Translate(0, DivH());
+                        OffsetY += DivH();
+                        MediaTransform();
 
-                        mediaElement.RenderTransform = new MatrixTransform(matrix);
-
-                        SubFocusRedraw(matrix);
                     }
                     break;
                 case Key.Escape:
 
-                    mediaElement.RenderTransform = new MatrixTransform(default_matrix);
+                    InitMediaTransform();
 
-                    TC = 0;
-                    SC = Constants.InitialScale;
-
-                    SubFocusRedraw(mediaElement.RenderTransform.Value);
                     break;
 
                 case Key.Space:
