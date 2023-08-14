@@ -21,6 +21,20 @@ namespace WpfApp2
     /// </summary>
     public partial class Page1 : Page
     {
+        public class TabItem
+        {
+            public string Header { get; set; }
+            public ObservableCollection<Person> Content { get; set; }
+        }
+        public class Person
+        {
+            public bool Selected { get; set; }
+            public string name { get; set; }
+            public int age { get; set; }
+        }
+        
+        public ObservableCollection<TabItem> Tabs { get; set; }
+
         public Page1()
         {
             InitializeComponent();
@@ -29,34 +43,56 @@ namespace WpfApp2
             Tabs = new ObservableCollection<TabItem>() {
                 new TabItem {
                     Header = "Header1",
-                    Content = new ObservableCollection<abc>()
+                    Content = new ObservableCollection<Person>()
                     {
-                        new abc{ name = "content1" , nickname = "nick1"},
-                        new abc { name = "content2", nickname = "nick2" },
+                        new Person{Selected = false, name = "hoge1" , age = 20},
+                        new Person{Selected = false, name = "hoge2" , age = 21},
+                        new Person{Selected = false, name = "hoge3" , age = 22},
+                        new Person{Selected = false, name = "hoge4" , age = 23},
+                        new Person{Selected = false, name = "hoge5" , age = 24},
+                        new Person{Selected = false, name = "hoge6" , age = 25},
+                        new Person{Selected = false, name = "hoge7" , age = 26},
+                        new Person{Selected = false, name = "hoge8" , age = 27},
                     }
                 },
                 new TabItem {
                     Header = "Header2",
-                    Content = new ObservableCollection<abc>()
+                    Content = new ObservableCollection<Person>()
                     {
-                        new abc{ name = "content3", nickname = "nick3" },
-                        new abc{ name = "content4", nickname = "nick4" },
+                        new Person{Selected = false, name = "fuga1" , age = 30},
+                        new Person{Selected = false, name = "fuga2" , age = 31},
+                        new Person{Selected = false, name = "fuga3" , age = 32},
                     }
                 }
             };
             tabcontrol.ItemsSource = Tabs;
         }
 
-        public ObservableCollection<TabItem> Tabs { get; set; }
-        public class TabItem
+
+
+        private void BtnItemAdd_Click(object sender, RoutedEventArgs e)
         {
-            public string Header { get; set; }
-            public ObservableCollection<abc> Content { get; set; }
+
         }
-        public class abc
+
+        private void BtnTabRen_Click(object sender, RoutedEventArgs e)
         {
-            public string name { get; set; }
-            public string nickname { get; set; }
+
+        }
+
+        private void BtnItemDel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

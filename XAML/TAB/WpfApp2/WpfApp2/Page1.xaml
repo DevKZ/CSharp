@@ -9,41 +9,68 @@
       Title="Page1">
 
     <Grid>
-        <TabControl x:Name="tabcontrol" ItemsSource="{Binding TabItems}">
-            <TabControl.ItemTemplate>
-                <!-- ヘッダのテンプレート -->
-                <DataTemplate>
-                    <TextBlock Text="{Binding Header}" />
-                </DataTemplate>
-            </TabControl.ItemTemplate>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-            <TabControl.ContentTemplate>
-                <!-- TabItemのコンテンツ -->
-                <DataTemplate>
-                    <ListView Margin="10" ItemsSource="{Binding Content}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn>
-                                    <GridViewColumnHeader Content="苗字" Tag="name"/>
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Path=name}"></TextBlock>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn>
-                                    <GridViewColumnHeader Content="名前" Tag="nickname"/>
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Path=nickname}"></TextBlock>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+        <StackPanel>
+            <Button x:Name="BtnItemAdd" Content="アイテム追加" Click="BtnItemAdd_Click">
+            </Button>
+            <Button x:Name="BtnItemDel" Content="アイテム削除" Click="BtnItemDel_Click">
+            </Button>
+            <Button x:Name="BtnTabRen" Content="タブ名変更" Click="BtnTabRen_Click">
+            </Button>
+        </StackPanel>
+
+        <Viewbox Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TabControl x:Name="tabcontrol" ItemsSource="{Binding TabItems}" >
+                <TabControl.ItemTemplate>
+                    <!-- ヘッダのテンプレート -->
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Header}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+
+                <TabControl.ContentTemplate>
+                    <!-- TabItemのコンテンツ -->
+                    <DataTemplate>
+                        <ListView ItemsSource="{Binding Content}" Height="160">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Margin="5,0" IsChecked="{Binding Selected}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn>
+                                        <GridViewColumnHeader Content="苗字" Tag="name"/>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=name}"></TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn>
+                                        <GridViewColumnHeader Content="年齢" Tag="age" />
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=age}" ></TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </Viewbox>
+
     </Grid>
 </Page>
