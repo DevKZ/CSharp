@@ -18,11 +18,11 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DialogHost.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>    
+        </ResourceDictionary>
     </Page.Resources>
 
 
-    <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" DialogClosing="DialogHost_DialogClosing">
+    <materialDesign:DialogHost Identifier="RootDialog" DialogClosing="DialogHost_DialogClosing">
         <Grid>
             <Button
                     x:Name="ShowDialog"

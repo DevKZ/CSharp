@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace WpfApp1
 {
@@ -16,21 +16,34 @@ namespace WpfApp1
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            var result = await MyMessageBox.Show("ダイアログの説明文です。よろしいですか？", "確認");
+            for (int b = (int)MyMessageBoxButton.OK; b <= (int)MyMessageBoxButton.YesNo; b++)
+            {
+                var result = await MyMessageBox.Show("ダイアログの説明文です。よろしいですか？", "確認", (MyMessageBoxButton)b);
 
-            if ((string)result == "OK")
-            {
-                Debug.Print("OKが押されました。");
+                if (((string)result == "OK") ||
+                    ((string)result == "Cancel") ||
+                    ((string)result == "Yes") ||
+                    ((string)result == "No") ||
+                    ((string)result == "Abort") ||
+                    ((string)result == "Retry") ||
+                    ((string)result == "Ignore")
+                    )
+                {
+                    Debug.Print((string)result + "が押されました。");
+
+                }
+                else
+                {
+                    Debug.Print("ダイアログの外が押されました。");
+                }
+
             }
-            else if ((string)result == "キャンセル")
-            {
-                Debug.Print("キャンセルが押されました。");
-            }
-            else
-            {
-                Debug.Print("ダイアログの外が押されました。");
-            }
+
         }
 
+        private void DialogHost_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+
+        }
     }
 }
